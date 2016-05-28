@@ -26,6 +26,7 @@ namespace APCPlugin
                 UsbDeviceType = dll.GetType("LibUsbDotNet.UsbDevice", true);
                 UsbDeviceFinderType = dll.GetType("LibUsbDotNet.Main.UsbDeviceFinder", true);
                 UsbSetupPacketType = dll.GetType("LibUsbDotNet.Main.UsbSetupPacket", true);
+                API.Log(API.LogType.Notice, $"Successfully loaded DLLs");
             }
             catch (Exception ex)
             {
@@ -98,8 +99,11 @@ namespace APCPlugin
                 );
 
                 return 865 * buffer[1] / 100;
+            } else {
+                API.Log(API.LogType.Error, $"Unable to open connection to APC");
+                return 0;
             }
-            return 5.0;
+            
         }
 
         static Assembly AssemblyDependsResolve(object sender, ResolveEventArgs e)
