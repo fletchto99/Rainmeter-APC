@@ -75,8 +75,7 @@ namespace APCPlugin
             {
                 int transferred = 0;
                 byte[] buffer = new byte[2];
-
-                API.Log(API.LogType.Debug, "TEST");
+                
                 dynamic setup = Activator.CreateInstance(
                     UsbSetupPacketType,
                     new object[] {
@@ -87,17 +86,16 @@ namespace APCPlugin
                         (Int16)0x0005
                     }
                 );
-
+                
                 UsbDeviceType.InvokeMember(
                     "ControlTransfer",
-                    BindingFlags.InvokeMethod,
+                    BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Instance,
                     null,
                     APC,
                     new object[] {
                         setup, buffer, 0x0040, (Int32) transferred
                     }
                 );
-
                 return 865 * buffer[1] / 100;
             } else {
                 API.Log(API.LogType.Error, $"Unable to open connection to APC");
